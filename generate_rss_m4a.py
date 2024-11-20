@@ -5,6 +5,7 @@ import xml.etree.ElementTree as ET
 
 # Configuration
 BASE_URL = "https://amletdotco.github.io/918be8150a1bbeb28810b3135ce7ea7e42aa813c772d305ef9fefb7de0b29187/audio"  # Base URL for audio files
+ARTWORK_URL = "https://amletdotco.github.io/918be8150a1bbeb28810b3135ce7ea7e42aa813c772d305ef9fefb7de0b29187/images/podcast_artwork.png"  # URL for podcast artwork
 OUTPUT_FILE = "podcast_feed.xml"  # Output RSS file
 PODCAST_TITLE = "John Flavel's The Fountain of Life"
 PODCAST_DESCRIPTION = "A reading of John Flavel's The Fountain of Life"
@@ -23,7 +24,11 @@ def extract_chapter_number(file_name):
 # Generate the RSS feed
 def generate_rss(audio_folder):
     # Create root RSS element
-    rss = ET.Element("rss", version="2.0")
+    rss = ET.Element(
+        "rss",
+        version="2.0",
+        attrib={"xmlns:itunes": "http://www.itunes.com/dtds/podcast-1.0.dtd"},
+    )
     channel = ET.SubElement(rss, "channel")
 
     # Add podcast metadata
@@ -31,6 +36,7 @@ def generate_rss(audio_folder):
     ET.SubElement(channel, "link").text = PODCAST_LINK
     ET.SubElement(channel, "description").text = PODCAST_DESCRIPTION
     ET.SubElement(channel, "language").text = PODCAST_LANGUAGE
+    ET.SubElement(channel, "itunes:image", href=ARTWORK_URL)  # Add podcast artwork
 
     # Get all audio files, sorted by chapter number
     audio_files = [
