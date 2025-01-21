@@ -48,8 +48,8 @@ def generate_rss(audio_folder):
 
     # Generate publish dates in ascending order
     base_date = datetime.datetime.now() - datetime.timedelta(
-        days=len(audio_files)
-    )  # Start in the past
+        days=len(audio_files) - 1
+    )  # Subtract one less day so the latest episode is today
     for idx, file_name in enumerate(audio_files):
         file_path = os.path.join(audio_folder, file_name)
         file_url = f"{BASE_URL}/{file_name}"
