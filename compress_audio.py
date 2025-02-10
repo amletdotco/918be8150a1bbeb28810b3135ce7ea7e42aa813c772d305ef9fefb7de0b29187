@@ -18,6 +18,11 @@ def compress_audio(input_folder, output_folder, bitrate):
         input_path = os.path.join(input_folder, file_name)
         output_path = os.path.join(output_folder, file_name)
 
+        # Skip if file already exists in output folder
+        if os.path.exists(output_path):
+            print(f"Skipping {file_name} - already exists in output folder")
+            continue
+
         # Compress using ffmpeg
         print(f"Compressing {file_name} to {bitrate}...")
         command = [
